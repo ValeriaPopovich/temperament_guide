@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Кто твой ученик? — шпаргалка репетитора</title>
+
+  <!-- Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bgA:#ffe7ef;
+      --bgB:#fff1dc;
+      --bgC:#dbfff3;
+
+      --card: rgba(255,255,255,.80);
+      --stroke: rgba(255,255,255,.55);
+      --text:#2f222a;
+      --muted:#6a5661;
+
+      --pink:#ff74ad;
+      --orange:#ff9c5a;
+      --mint:#39c9a7;
+
+      --shadow: 0 18px 42px rgba(35,10,25,.10);
+      --shadow2: 0 10px 24px rgba(35,10,25,.08);
+
+      --radius: 26px;
+      --radius2: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body { height:100%; }
+    body{
+      margin:0;
+      font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 700px at 15% 10%, rgba(255,116,173,.28), transparent 55%),
+        radial-gradient(1000px 650px at 80% 20%, rgba(255,156,90,.22), transparent 55%),
+        radial-gradient(900px 600px at 55% 95%, rgba(57,201,167,.18), transparent 55%),
+        linear-gradient(120deg, var(--bgA) 0%, var(--bgB) 40%, var(--bgC) 100%);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 22px 14px 80px;
+    }
+
+    .card{
+      width:100%;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      animation: floatIn .55s cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    @keyframes floatIn{
+      from{ opacity:0; transform: translateY(16px) scale(.985); }
+      to{ opacity:1; transform: translateY(0) scale(1); }
+    }
+
+    .topRow{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    h1{
+      margin:0;
+      font-size: clamp(22px, 2.6vw, 30px);
+      line-height: 1.12;
+      letter-spacing:.2px;
+      font-weight:600;
+    }
+
+    .subtitle{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: clamp(14px, 1.6vw, 16px);
+      line-height: 1.45;
+      font-weight:400;
+      max-width: 720px;
+    }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight:600;
+      font-size: 14px;
+      box-shadow: var(--shadow2);
+      transition: transform .18s cubic-bezier(.2,.9,.2,1), filter .18s ease, background .18s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      user-select:none;
+      text-decoration:none;
+      line-height:1;
+      will-change: transform;
+      white-space: nowrap;
+    }
+    .btn:hover{ transform: translateY(-2px); filter: brightness(1.02); }
+    .btn:active{ transform: translateY(0) scale(.99); }
+    .btn-primary{
+      background: linear-gradient(135deg, var(--pink), var(--orange));
+      color:#fff;
+    }
+    .btn-ghost{
+      background: rgba(255,255,255,.74);
+      color: var(--text);
+      border: 1px solid rgba(0,0,0,.04);
+    }
+
+    .chips{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 920px){
+      .chips{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    .chip{
+      border-radius: 18px;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.82);
+      padding: 14px 14px;
+      cursor:pointer;
+      transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s ease, border-color .18s ease;
+      box-shadow: 0 10px 22px rgba(35,10,25,.06);
+      user-select:none;
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+      min-height: 92px;
+    }
+    .chip:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(35,10,25,.08);
+    }
+    .chip.active{
+      border-color: rgba(255,116,173,.45);
+      box-shadow: 0 16px 34px rgba(35,10,25,.10);
+      transform: translateY(-2px);
+    }
+
+    .chipTitle{
+      font-weight:600;
+      font-size: 15px;
+      line-height:1.1;
+    }
+    .chipHint{
+      font-weight:400;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .pillRow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top: 6px;
+    }
+    .pill{
+      font-size: 11px;
+      font-weight:600;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.75);
+      white-space:nowrap;
+    }
+    .pill.h{ border-color: rgba(255,156,90,.35); background: rgba(255,156,90,.12); }
+    .pill.s{ border-color: rgba(255,116,173,.35); background: rgba(255,116,173,.12); }
+    .pill.f{ border-color: rgba(57,201,167,.35); background: rgba(57,201,167,.12); color:#0e3a30; }
+    .pill.m{ border-color: rgba(122,108,255,.28); background: rgba(122,108,255,.10); }
+
+    .contentCard{
+      margin-top: 14px;
+      display:none;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(0,0,0,.05);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      animation: floatIn .45s cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .contentTitleRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+      margin-bottom: 8px;
+    }
+
+    h2{
+      margin:0;
+      font-size: 18px;
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+
+    .mini{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight:400;
+      max-width: 760px;
+    }
+
+    .sections{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .section{
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(0,0,0,.05);
+      border-radius: var(--radius2);
+      padding: 14px 16px;
+      box-shadow: 0 10px 22px rgba(35,10,25,.06);
+      animation: fadeUp .35s ease both;
+    }
+
+    @keyframes fadeUp{
+      from{ opacity:0; transform: translateY(10px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    .section h3{
+      margin:0 0 8px;
+      font-size: 13.5px;
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+
+    .section p{
+      margin:0;
+      font-size: 13.5px;
+      line-height: 1.55;
+      font-weight:400;
+      color: var(--text);
+    }
+
+    .section ul{
+      margin: 8px 0 0;
+      padding-left: 18px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      font-weight:400;
+    }
+    .section li{ margin: 6px 0; }
+
+    .toolbar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .fadeNote{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight:400;
+      line-height:1.45;
+    }
+
+    /* small niceness on mobile */
+    @media (max-width: 640px){
+      .card{ padding: 18px; }
+      .chip{ padding: 12px; min-height: 90px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="card">
+      <div class="topRow">
+        <div>
+          <h1>Кто твой ученик? — быстрый гид для репетитора</h1>
+          <p class="subtitle">
+            Выбери темперамент ученика — и получишь конкретные инструкции: как строить урок, какие задания давать,
+            как задавать ДЗ и что делать, если “всё пошло не так”.
+          </p>
+        </div>
+
+        <div class="toolbar">
+          <a class="btn btn-ghost" href="https://t.me/lera_easy_math" target="_blank" rel="noopener">Подписаться</a>
+        </div>
+      </div>
+
+      <div class="chips" id="chips">
+        <div class="chip" data-key="A">
+          <div class="chipTitle">Холерик</div>
+          <div class="chipHint">Темп, вызов, “гонит и косячит”</div>
+          <div class="pillRow"><span class="pill h">скорость</span><span class="pill h">контроль ошибок</span></div>
+        </div>
+
+        <div class="chip" data-key="B">
+          <div class="chipTitle">Сангвиник</div>
+          <div class="chipHint">Интерес, общение, “улетает и бросает”</div>
+          <div class="pillRow"><span class="pill s">фокус</span><span class="pill s">доделывать</span></div>
+        </div>
+
+        <div class="chip" data-key="C">
+          <div class="chipTitle">Флегматик</div>
+          <div class="chipHint">Структура, повтор, “медленный старт”</div>
+          <div class="pillRow"><span class="pill f">алгоритм</span><span class="pill f">серии задач</span></div>
+        </div>
+
+        <div class="chip" data-key="D">
+          <div class="chipTitle">Меланхолик</div>
+          <div class="chipHint">Тревога, аккуратность, “боится ошибок”</div>
+          <div class="pillRow"><span class="pill m">уверенность</span><span class="pill m">лесенка</span></div>
+        </div>
+
+        <div class="chip" data-key="MIX">
+          <div class="chipTitle">Смешанный тип</div>
+          <div class="chipHint">Как быстро выбирать “режим” урока</div>
+          <div class="pillRow"><span class="pill">инструкция</span><span class="pill">по ситуации</span></div>
+        </div>
+      </div>
+
+      <div class="contentCard" id="contentCard">
+        <div class="contentTitleRow">
+          <div>
+            <h2 id="contentTitle">—</h2>
+            <p class="mini" id="contentLead">—</p>
+          </div>
+          <button class="btn btn-primary" id="scrollTopBtn" type="button">Наверх</button>
+        </div>
+
+        <div class="sections" id="sections"></div>
+
+        <p class="fadeNote">
+          Подсказка: если темперамент смешанный — выбирай не “ярлык”, а <b>какую проблему ты видишь на уроке</b>
+          (спешка / отвлечения / медленный старт / тревога) — и включай инструменты нужного типа.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const CONTENT = {
+      A: {
+        title: "Холерик — инструкция репетитору",
+        lead: "Твой формат: короткие рывки, много практики, минимум воды, + быстрый контроль качества (чтобы не сливал баллы на мелочах).",
+        sections: [
+          {
+            h: "Как строить урок (прям схема)",
+            p: "Урок веди как серию спринтов: «цель → короткий блок → мини-проверка → следующий блок». В начале всегда называй цель и цифру: «сегодня 10 задач на … и минус 2 глупые ошибки». Теория — коротко (одно правило) и сразу 2–3 примера, дальше практика."
+          },
+          {
+            h: "Какие задания давать больше всего",
+            ul: [
+              "Короткие однотипные задачи пачками (6–12 шт.) на скорость.",
+              "Задачи с “ловушками” на внимательность: знаки, единицы, скобки, перенос, округление, «что именно спросили».",
+              "Мини-контрольные на 8–10 задач (коротко, как матч).",
+              "Отдельный тренинг «проверка за 30–60 секунд»."
+            ]
+          },
+          {
+            h: "Главный инструмент: пит-стоп (контроль ошибок)",
+            p: "После каждого задания вводи ритуал на 20–40 секунд: 1) перечитал вопрос (что спрашивают?), 2) проверил знак/единицы/условие, 3) прикинул адекватность (примерная оценка). Холерик не будет «проверять долго», но «пит-стоп» он выдержит и это резко повышает баллы."
+          },
+          {
+            h: "Домашка (чтобы сделал и не взорвался)",
+            ul: [
+              "Формат «спринт»: 2 коротких набора по 8–12 задач вместо одной огромной простыни.",
+              "Обязательно таймер: «15–20 минут и стоп».",
+              "Плюс 1–2 «босс-задачи» сложнее — чтобы было интересно и не скучно.",
+              "Соотношение: ~70% база на точность + 30% вызов."
+            ]
+          },
+          {
+            h: "Как разбирать ошибки (быстро и эффективно)",
+            ul: [
+              "Не «разбор каждой задачи». Выбирай 2–3 самые частые ошибки и делай «анти-ошибку»: причина → правило → 2 похожих задания сразу.",
+              "Формула комментария: «Факт → причина → действие». Пример: «поторопился → пропустил минус → делаем пит-стоп перед ответом».",
+              "Запрет: «ты невнимательный». Разрешено: «ловушка на внимательность»."
+            ]
+          },
+          {
+            h: "Если злится/срывается",
+            p: "Не говори «успокойся». Дай микропаузу 20–30 сек, верни контроль выбором: «решаем вместе или ты сам, я проверяю?». Потом дай одну задачу на шаг легче (быстрая победа) и возвращайся к нужному уровню."
+          }
+        ]
+      },
+
+      B: {
+        title: "Сангвиник — инструкция репетитору",
+        lead: "Твой формат: смена активности каждые 10–12 минут, пакеты задач, чеклисты и механика «доделывать до конца».",
+        sections: [
+          {
+            h: "Как строить урок (чтобы не улетел)",
+            ul: [
+              "Правило: меняй формат каждые 10–12 минут (объяснение → практика → мини-итог → другой тип практики).",
+              "Встраивай вопросы каждые 1–2 минуты: «как думаешь?», «что дальше?», «почему так?».",
+              "Попроси 60 секунд «побыть учителем» и объяснить шаги — это держит внимание лучше всего."
+            ]
+          },
+          {
+            h: "Какие задания давать больше всего",
+            ul: [
+              "Пакеты задач: не 20 поштучно, а 4 пакета по 5 («пакет закрыт — галочка»).",
+              "Задания на внимание: «найди ошибку», «в каком шаге косяк», «выбери верное решение», тесты с вариантами.",
+              "Задания с проговариванием: «объясни вслух», «перескажи алгоритм», «сделай мини-конспект 3 строки»."
+            ]
+          },
+          {
+            h: "Домашка (чтобы довёл до конца)",
+            ul: [
+              "Структура: Блок А (5 база) → Блок B (3 интересные) → Блок C (2 на внимательность).",
+              "Ограничение по времени: «20 минут работаем — потом стоп».",
+              "Чеклист самопроверки: 1) что спросили? 2) правило применил? 3) ответ записал? 4) знак/единицы проверил?"
+            ]
+          },
+          {
+            h: "Как возвращать фокус без конфликтов",
+            p: "Не запрещай общение — дозируй. Рабочие штуки: «стоп-слово: ФОКУС», «3 минуты работаем — 30 секунд болталки», «закрываем пакет задач и отдыхаем»."
+          },
+          {
+            h: "Типовые ошибки и как лечить",
+            ul: [
+              "Ошибки из-за деталей → добавляй задания-ловушки и мини-проверку «что спросили?».",
+              "Бросает на середине → давай задачи пакетами, отмечай прогресс галочками.",
+              "Скачет по решениям → проси писать/говорить шаги: «сейчас шаг 1, потом шаг 2»."
+            ]
+          }
+        ]
+      },
+
+      C: {
+        title: "Флегматик — инструкция репетитору",
+        lead: "Твой формат: предсказуемая структура, серии однотипных задач, алгоритмы и постепенная тренировка скорости без стресса.",
+        sections: [
+          {
+            h: "Как строить урок (чтобы включился)",
+            ul: [
+              "Старт: 2–3 задания, которые точно получатся (разогрев без тревоги).",
+              "Потом алгоритм «шаг 1–2–3» и практика одним типом.",
+              "Мини-итоги: «на каком шаге ты сейчас? что дальше?» — чтобы не зависал."
+            ]
+          },
+          {
+            h: "Какие задания давать больше всего",
+            ul: [
+              "Серии однотипных задач (10–15) — это его сильная сторона, он раскрывается на повторе.",
+              "Задания «собери решение из шагов», «дополни пропущенный шаг», «отметь правильный шаг».",
+              "После закрепления — тренинг скорости по таймеру (аккуратно, по ступеням)."
+            ]
+          },
+          {
+            h: "Как тренировать скорость правильно",
+            p: "Не «быстрее!», а «быстрее по шагам». Когда алгоритм стабилен, ставишь лесенку: 1 задача за 6 минут → за 5 → за 4. Фиксируй прогресс цифрами — это мотивирует."
+          },
+          {
+            h: "Домашка",
+            ul: [
+              "Один тип задач — много практики (8–15).",
+              "Плюс 1–2 задачи «на подумать» (но не мешанина из 10 тем).",
+              "Опорный мини-конспект: правило + один эталонный пример."
+            ]
+          },
+          {
+            h: "Разбор ошибок",
+            p: "Покажи, какой шаг пропущен, и сразу дай 2 аналогичных задания. Флегматик нормально держит повтор — это быстро закрепляет."
+          }
+        ]
+      },
+
+      D: {
+        title: "Меланхолик — инструкция репетитору",
+        lead: "Твой формат: маленькие победы, постепенное усложнение, понятные опоры и отдельный навык «работать с ошибкой без паники».",
+        sections: [
+          {
+            h: "Как строить урок (чтобы не закрывался)",
+            ul: [
+              "Начинай с 1–2 задач на успех (уверенность запускает мозг).",
+              "Дальше «лесенка»: лёгкое → среднее → сложнее.",
+              "Финал: фиксируй «что теперь умеешь» (важнее, чем кажется)."
+            ]
+          },
+          {
+            h: "Какие задания давать больше всего",
+            ul: [
+              "Задания с опорой: «дополни решение», «выбери правильный шаг», «подставь в формулу», «проверь ответ».",
+              "Лесенки сложности: 1 простое → 2 средних → 1 сложнее.",
+              "Мягкие мини-контрольные на 6–8 задач (привыкание к формату без стресса)."
+            ]
+          },
+          {
+            h: "Главный навык: работа с ошибкой (прям алгоритм)",
+            p: "Вводи ритуал: «ошибка → причина → правило → 1 похожая задача сразу». Это ломает страх ошибок и превращает ошибку в инструкцию."
+          },
+          {
+            h: "Домашка",
+            ul: [
+              "Коротко и понятно: 6–10 задач.",
+              "Рядом мини-опора (правило/пример).",
+              "Правило старта: «сначала то, что точно умеешь — потом сложнее».",
+              "Если была ошибка — 1 задача именно на неё (закрыть тревогу)."
+            ]
+          },
+          {
+            h: "Контрольные/ОГЭ — как готовить",
+            p: "Репетиции: сначала 10 минут без оценки → потом 15 минут «как контрольная» → потом 20. Постепенность снижает тревогу лучше любых разговоров."
+          }
+        ]
+      },
+
+      MIX: {
+        title: "Смешанный тип — быстрый выбор режима",
+        lead: "Смешанный темперамент — это два режима. Выбирай инструменты не по ярлыку, а по проблеме, которую видишь прямо сейчас.",
+        sections: [
+          {
+            h: "Если видишь спешку и глупые ошибки",
+            ul: [
+              "Включай «холерик-режим»: таймер + короткие блоки + пит-стоп 20–40 секунд перед ответом.",
+              "Давай задачи пачками и обязательно «ловушки» на знаки/единицы/что спросили."
+            ]
+          },
+          {
+            h: "Если видишь отвлечения и недоделанные задания",
+            ul: [
+              "Включай «сангвиник-режим»: пакеты задач (4×5), галочки прогресса, смена активности каждые 10–12 минут.",
+              "Добавляй задания «найди ошибку», тесты с вариантами, проговаривание шагов."
+            ]
+          },
+          {
+            h: "Если видишь медленный старт и зависания",
+            ul: [
+              "Включай «флегматик-режим»: разогрев → алгоритм → серия однотипных задач.",
+              "Скорость только после стабильности (лесенка по времени)."
+            ]
+          },
+          {
+            h: "Если видишь тревогу, страх ошибок, “я туплю”",
+            ul: [
+              "Включай «меланхолик-режим»: маленькая победа → лесенка сложности → ритуал работы с ошибкой.",
+              "Домашка короткая + опора + правило старта с простого."
+            ]
+          }
+        ]
+      }
+    };
+
+    const chips = Array.from(document.querySelectorAll(".chip"));
+    const contentCard = document.getElementById("contentCard");
+    const sectionsRoot = document.getElementById("sections");
+    const contentTitle = document.getElementById("contentTitle");
+    const contentLead = document.getElementById("contentLead");
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    function render(key){
+      const data = CONTENT[key];
+      if (!data) return;
+
+      contentTitle.textContent = data.title;
+      contentLead.textContent = data.lead;
+
+      sectionsRoot.innerHTML = "";
+      data.sections.forEach((s) => {
+        const el = document.createElement("div");
+        el.className = "section";
+
+        const h = document.createElement("h3");
+        h.textContent = s.h;
+
+        el.appendChild(h);
+
+        if (s.p){
+          const p = document.createElement("p");
+          p.textContent = s.p;
+          el.appendChild(p);
+        }
+
+        if (s.ul){
+          const ul = document.createElement("ul");
+          s.ul.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            ul.appendChild(li);
+          });
+          el.appendChild(ul);
+        }
+
+        sectionsRoot.appendChild(el);
+      });
+
+      contentCard.style.display = "block";
+      contentCard.animate(
+        [{opacity:0, transform:"translateY(10px)"},{opacity:1, transform:"translateY(0)"}],
+        {duration:260, easing:"cubic-bezier(.2,.9,.2,1)"}
+      );
+      contentCard.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        render(chip.dataset.key);
+      });
+    });
+
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+  </script>
+</body>
+</html>
